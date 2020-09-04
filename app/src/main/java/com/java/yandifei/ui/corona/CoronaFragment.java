@@ -23,13 +23,13 @@ public class CoronaFragment extends Fragment {
         coronaViewModel =
                 ViewModelProviders.of(this).get(CoronaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_news, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        coronaViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        //final TextView textView = root.findViewById(R.id.text);
+        //coronaViewModel.getText().observe(this, new Observer<String>() {
+        //    @Override
+        //    public void onChanged(@Nullable String s) {
+        //        textView.setText(s);
+        //    }
+        //});
         return root;
     }
 }
