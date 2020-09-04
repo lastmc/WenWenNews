@@ -1,4 +1,4 @@
-package com.java.yandifei.ui.notifications;
+package com.java.yandifei.ui.news;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.java.yandifei.R;
 
-public class NotificationsFragment extends Fragment {
+public class NewsFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private NewsViewModel newsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(this, new Observer<String>() {
+        newsViewModel =
+                ViewModelProviders.of(this).get(NewsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_corona, container, false);
+        final TextView textView = root.findViewById(R.id.text_home);
+        newsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
