@@ -1,5 +1,6 @@
 package com.java.yandifei.ui.news;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.java.yandifei.R;
 import com.java.yandifei.network.NewsEntry;
 
+import java.util.Collection;
 import java.util.List;
 
 import static java.lang.Math.min;
@@ -47,6 +49,8 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
             holder.newsTitle.setText(news.title);
             holder.newsDescription.setText(news.source + " | " + news.time);
             holder.itemView.setTag(position);
+            if (NewsEntry.newsIsRead(news.id))
+                holder.setAllTextColor(Color.rgb(102, 102, 102));
         }
     }
 
@@ -63,9 +67,12 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
 
     @Override
     public void onClick(View view) {
+        NewsEntry clickedNews = newsList.get((int)view.getTag());
         if (onItemClickListener != null) {
             onItemClickListener.onItemClick(view, (int)view.getTag());
         }
+        NewsEntry.saveReadNewsState(clickedNews);
+        notifyItemChanged((int)view.getTag());
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

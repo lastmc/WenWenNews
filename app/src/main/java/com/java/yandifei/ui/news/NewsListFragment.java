@@ -69,7 +69,8 @@ public class NewsListFragment extends Fragment {
             new AsyncTask<String, Void, Boolean>() {
                 @Override
                 protected Boolean doInBackground(String... strings) {
-                    NewsEntry.getNewsList(tag, 1,20, newsList);
+                    NewsEntry.getNewsList(tag, 1,
+                            NewsItemRecyclerViewAdapter.entryNumPerPage, newsList);
                     return true;
                 }
 
@@ -89,7 +90,8 @@ public class NewsListFragment extends Fragment {
                         @Override
                         protected Boolean doInBackground(String... strings) {
                             newsList.clear();
-                            NewsEntry.getNewsList(tag, 1,20, newsList);
+                            NewsEntry.getNewsList(tag, 1,
+                                    NewsItemRecyclerViewAdapter.entryNumPerPage, newsList);
                             return true;
                         }
 
@@ -108,7 +110,8 @@ public class NewsListFragment extends Fragment {
                     new AsyncTask<String, Void, Boolean>() {
                         @Override
                         protected Boolean doInBackground(String... strings) {
-                            NewsEntry.getNewsList(tag, adapter.nextPageNum(),20, newsList);
+                            NewsEntry.getNewsList(tag, adapter.nextPageNum(),
+                                    NewsItemRecyclerViewAdapter.entryNumPerPage, newsList);
                             return true;
                         }
 

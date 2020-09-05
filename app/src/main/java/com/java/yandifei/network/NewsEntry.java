@@ -18,7 +18,12 @@ import com.alibaba.fastjson.JSON;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +42,7 @@ public class NewsEntry implements Serializable {
     public String type;
     public List<Author> authors = new ArrayList<Author>();
     private static FragmentActivity activity;
+    private static MyApplication globalVariables;
     private static String newsEntryUrl = "https://covid-dashboard.aminer.cn/api/events/list";
 
 
@@ -52,20 +58,46 @@ public class NewsEntry implements Serializable {
 
     public static void setActivity(FragmentActivity activity) {
         NewsEntry.activity = activity;
+        NewsEntry.globalVariables = (MyApplication)activity.getApplication();
     }
 
-    public static void saveNewsEntry(String tableName, NewsEntry news) {
-        MyApplication globalVariables = (MyApplication)activity.getApplication();
-        SharedPreferences storage = activity.getSharedPreferences(tableName, Context.MODE_PRIVATE);
+    public static void saveNewsEntry(NewsEntry news) {
+        SharedPreferences storage = activity.getSharedPreferences(
+                globalVariables.newsListTableName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = storage.edit();
         editor.putString(news.id, JSON.toJSONString(news));
         editor.commit();
     }
 
-    public static boolean newsIsIntable(String tableName, String newsId) {
-        MyApplication globalVariables = (MyApplication)activity.getApplication();
-        SharedPreferences storage = activity.getSharedPreferences(tableName, Context.MODE_PRIVATE);
+    public static void saveReadNewsState(NewsEntry news) {
+        SharedPreferences storage = activity.getSharedPreferences(
+                globalVariables.readNewsListTableName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = storage.edit();
+        editor.putBoolean(news.id, true);
+        editor.commit();
+
+    }
+
+    public static boolean newsIsSaved(String newsId) {
+        SharedPreferences storage = activity.getSharedPreferences(
+                globalVariables.newsListTableName, Context.MODE_PRIVATE);
         return storage.contains(newsId);
+    }
+
+    public static boolean newsIsRead(String newsId) {
+        SharedPreferences storage = activity.getSharedPreferences(
+                globalVariables.readNewsListTableName, Context.MODE_PRIVATE);
+        return storage.contains(newsId);
+    }
+
+    public static List<NewsEntry> getAllSavedNews(List<NewsEntry> newsEntryList) {
+        MyApplication globalVariables = (MyApplication)activity.getApplication();
+        SharedPreferences storage = activity.getSharedPreferences(
+                globalVariables.newsListTableName, Context.MODE_PRIVATE);
+        for (String data : (Collection<String>)storage.getAll().values()) {
+            newsEntryList.add(JSON.parseObject(data, NewsEntry.class));
+        }
+        return newsEntryList;
     }
 
     public static void getNewsList(CharSequence tag, int page, int entryNumPerPage, final List<NewsEntry> newsList) {
@@ -90,15 +122,29 @@ public class NewsEntry implements Serializable {
                         }
                     }
                     newsList.add(entry);
-                    if (!newsIsIntable(globalVariables.newsListTableName, entry.id))
-                        saveNewsEntry(globalVariables.newsListTableName, entry);
+                    if (!newsIsSaved(entry.id))
+                        saveNewsEntry(entry);
                 }
+            }
+        } catch (UnknownHostException e) {
+            // no network access
+            if (newsList.size() == 0) {
+                getAllSavedNews(newsList);
+                newsList.sort(new Comparator<NewsEntry>() {
+                    @Override
+                    public int compare(NewsEntry o1, NewsEntry o2) {
+                        String[] times1 = o1.time.split(" ");
+                        String[] times2 = o2.time.split(" ");
+                        if (times1.length == 1 || times2.length == 1) {
+                            return times2[0].replace("/", "-").compareTo(
+                                    times1[0].replace("/", "-"));
+                        }
+                        return o2.time.compareTo(o1.time);
+                    }
+                });
             }
         } catch (IOException e) {
             System.out.println("mylog: " + e);
-        } catch (Exception e) {
-            // no network access
-
         } finally {
             if (response != null) response.body().close();
         }
