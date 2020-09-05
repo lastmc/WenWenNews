@@ -3,6 +3,7 @@ package com.java.yandifei.ui.news;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,12 +13,17 @@ import com.java.yandifei.network.NewsEntry;
 
 import java.util.List;
 
+import static java.lang.Math.min;
+
 public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemViewHolder> implements View.OnClickListener {
     private List<NewsEntry> newsList;
     private OnItemClickListener onItemClickListener;
+    private int pageNum;
+    public static final int entryNumPerPage = 20;
 
     NewsItemRecyclerViewAdapter(List<NewsEntry> newsList) {
         this.newsList = newsList;
+        this.pageNum = 1;
     }
 
     @NonNull
@@ -31,7 +37,7 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
 
     @Override
     public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int position) {
-        if (newsList != null && position < newsList.size()) {
+        if (newsList != null && position < newsList.size() && position < pageNum*entryNumPerPage) {
             NewsEntry news = newsList.get(position);
             holder.newsTitle.setText(news.title);
             holder.newsDescription.setText(news.description);
@@ -41,7 +47,16 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
 
     @Override
     public int getItemCount() {
-        return newsList.size();
+        return min(newsList.size(), pageNum*entryNumPerPage);
+    }
+
+    public void refresh() {
+        notifyDataSetChanged();
+    }
+
+    public void loadMore() {
+        pageNum += 1;
+        notifyDataSetChanged();
     }
 
     @Override
