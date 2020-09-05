@@ -64,25 +64,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-class HostFragmentAdapter extends FragmentStateAdapter {
-    public HostFragmentAdapter(FragmentActivity activity){
-        super(activity);
-    }
-
-    @Override
-    public Fragment createFragment(int position){
-        switch(position){
-            case 0:
-                return new NewsFragment();
-            case 1:
-                return new CoronaFragment();
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public int getItemCount(){
-        return 2;
-    }
-}

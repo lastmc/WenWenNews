@@ -9,7 +9,7 @@
         android:id="@+id/navigation_news"
         android:name="com.java.yandifei.ui.news.NewsFragment"
         android:label="@string/title_news"
-        tools:layout="@layout/fragment_news" />
+        tools:layout="@layout/fragment_news_single" />
 
     <fragment
         android:id="@+id/navigation_corona"
