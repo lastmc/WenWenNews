@@ -52,6 +52,7 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
 
     @Override
     public int getItemCount() {
+        if(tag == null) return newsList.size();
         return min(newsList.size(), pageNum*entryNumPerPage);
     }
 
