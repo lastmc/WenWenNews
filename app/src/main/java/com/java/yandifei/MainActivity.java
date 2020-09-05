@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         final ViewPager2 viewPager2 = findViewById(R.id.nav_host_fragment);
         viewPager2.setAdapter(new HostFragmentAdapter(this));
+        viewPager2.setUserInputEnabled(false);
 
         final BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
