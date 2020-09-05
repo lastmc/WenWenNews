@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.java.yandifei.R;
@@ -25,7 +26,8 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        final AutoCompleteTextView textView = findViewById(R.id.search_view).findViewById(R.id.search_src_text);
+        final SearchView searchView = findViewById(R.id.search_view);
+        final AutoCompleteTextView textView = searchView.findViewById(R.id.search_src_text);
         textView.setThreshold(0);
         String[] history = {"123","234"};
         final ArrayAdapter<String> historyAdapter = new ArrayAdapter<>(this,
@@ -35,6 +37,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 textView.setText(historyAdapter.getItem(position));
+                searchView.clearFocus();
             }
         });
     }
