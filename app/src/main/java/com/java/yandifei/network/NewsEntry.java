@@ -34,7 +34,7 @@ import okhttp3.Response;
 
 public class NewsEntry implements Serializable {
 
-    public String id;
+    public String _id;
     public String title;
     public String time;
     public String source;
@@ -51,7 +51,7 @@ public class NewsEntry implements Serializable {
 
     @Override
     public String toString() {
-        return "NewsEntry(id: " + id + ", title: " + title + ", time: " + time+
+        return "NewsEntry(_id: " + _id + ", title: " + title + ", time: " + time+
                 ", source: " + source + ", content: " + content + ", type: " + type +
                 ", authors: " + authors + ")";
     }
@@ -65,7 +65,7 @@ public class NewsEntry implements Serializable {
         SharedPreferences storage = activity.getSharedPreferences(
                 globalVariables.newsListTableName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = storage.edit();
-        editor.putString(news.id, JSON.toJSONString(news));
+        editor.putString(news._id, JSON.toJSONString(news));
         editor.commit();
     }
 
@@ -73,7 +73,7 @@ public class NewsEntry implements Serializable {
         SharedPreferences storage = activity.getSharedPreferences(
                 globalVariables.readNewsListTableName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = storage.edit();
-        editor.putBoolean(news.id, true);
+        editor.putBoolean(news._id, true);
         editor.commit();
 
     }
@@ -122,7 +122,8 @@ public class NewsEntry implements Serializable {
                         }
                     }
                     newsList.add(entry);
-                    if (!newsIsSaved(entry.id))
+                    System.out.println(entry);
+                    if (!newsIsSaved(entry._id))
                         saveNewsEntry(entry);
                 }
             }

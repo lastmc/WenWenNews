@@ -49,7 +49,7 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
             holder.newsTitle.setText(news.title);
             holder.newsDescription.setText(news.source + " | " + news.time);
             holder.itemView.setTag(position);
-            if (NewsEntry.newsIsRead(news.id))
+            if (NewsEntry.newsIsRead(news._id))
                 holder.setAllTextColor(Color.rgb(102, 102, 102));
         }
     }
