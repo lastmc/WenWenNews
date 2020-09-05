@@ -6,12 +6,18 @@
     <com.scwang.smart.refresh.header.MaterialHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView
+    <!--androidx.recyclerview.widget.RecyclerView
         android:id="@+id/news_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
-        android:background="#fff" />
+        android:background="#fff" /-->
+    <LinearLayout
+        android:id="@+id/news_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
     <com.scwang.smart.refresh.footer.BallPulseFooter
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
