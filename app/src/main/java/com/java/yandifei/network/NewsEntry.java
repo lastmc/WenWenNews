@@ -46,10 +46,10 @@ public class NewsEntry implements Serializable {
                 ", authors: " + authors + ")";
     }
 
-    public static void getNewsList(CharSequence tag, int page, final List<NewsEntry> newsList) {
+    public static void getNewsList(CharSequence tag, int page, int entryNumPerPage, final List<NewsEntry> newsList) {
         OkHttpClient client = new OkHttpClient();
         String url = newsEntryUrl + "?type=" + tag + "&page=" + page +
-                "&size=" + NewsItemRecyclerViewAdapter.entryNumPerPage;
+                "&size=" + entryNumPerPage;
         final Request request = new Request.Builder().get().url(url).build();
         Response response = null;
         try {
