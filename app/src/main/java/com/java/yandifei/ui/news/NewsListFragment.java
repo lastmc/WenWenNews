@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.java.yandifei.R;
 import com.java.yandifei.network.NewsEntry;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -33,7 +37,7 @@ public class NewsListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.news_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false));
-        NewsItemRecyclerViewAdapter adapter = new NewsItemRecyclerViewAdapter(this.newsList);
+        final NewsItemRecyclerViewAdapter adapter = new NewsItemRecyclerViewAdapter(this.newsList);
         adapter.setOnItemClickListener(new NewsItemRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -41,6 +45,25 @@ public class NewsListFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
+
+        // Set up refresher and footer
+        RefreshLayout refreshLayout = (RefreshLayout)view.findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                Toast.makeText(getContext(), "Oh this is shitting refreshing", Toast.LENGTH_LONG).show();
+                adapter.refresh();
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                Toast.makeText(getContext(), "Oh this is shitting loading more", Toast.LENGTH_LONG).show();
+                adapter.loadMore();
+                refreshlayout.finishLoadMore(1000/*,false*/);//传入false表示加载失败
+            }
+        });
         return view;
     }
 
