@@ -45,7 +45,7 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
         if (newsList != null && position < newsList.size() && position < pageNum*entryNumPerPage) {
             NewsEntry news = newsList.get(position);
             holder.newsTitle.setText(news.title);
-            holder.newsDescription.setText(news.type);
+            holder.newsDescription.setText(news.source + " | " + news.time);
             holder.itemView.setTag(position);
         }
     }

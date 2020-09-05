@@ -39,12 +39,6 @@ public class NewsEntry implements Serializable {
     public NewsEntry() {
     }
 
-    public NewsEntry(String id, String title, String description, String time) {
-        this.id = id;
-        this.title = title;
-        this.time = time;
-    }
-
     @Override
     public String toString() {
         return "NewsEntry(id: " + id + ", title: " + title + ", time: " + time+
@@ -65,8 +59,14 @@ public class NewsEntry implements Serializable {
                 JSONArray dataArray = ((Map<String, JSONArray>)JSON.parse(result)).get("data");
                 for (int i = 0; i < dataArray.size(); ++i) {
                     NewsEntry entry = JSON.parseObject(dataArray.getString(i), NewsEntry.class);
+                    if (entry.source.equals("")) {
+                        if (entry.authors.size() == 0) entry.source = "Unknown";
+                        else {
+                            for (Author author : entry.authors) entry.source += author.name + ", ";
+                            entry.source = entry.source.substring(0, entry.source.length()-3);
+                        }
+                    }
                     // System.out.println(entry);
-                    System.out.println(dataArray.getString(i));
                     newsList.add(entry);
                 }
             }
