@@ -25,13 +25,17 @@ import java.util.List;
 
 public class NewsListFragment extends Fragment {
 
-    private List<NewsEntry> newsList;
-    private Fragment currentNewsList;
-    private CharSequence tag;
+    public List<NewsEntry> newsList;
+    public Fragment currentNewsList;
+    public CharSequence tag = null;
+
+    public NewsListFragment(){
+        this.newsList = new ArrayList<>();
+    }
 
     public NewsListFragment(CharSequence tag) {
         this.tag = tag;
-        this.newsList = new ArrayList<NewsEntry>();
+        this.newsList = new ArrayList<>();
     }
 
     public NewsListFragment(final List<NewsEntry> newsList) {
@@ -60,61 +64,63 @@ public class NewsListFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);
 
-        // get data from network
-        new AsyncTask<String, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(String... strings) {
-                NewsEntry.getNewsList(tag, 1, newsList);
-                return true;
-            }
+        if(tag!=null) {
+            // get data from network
+            new AsyncTask<String, Void, Boolean>() {
+                @Override
+                protected Boolean doInBackground(String... strings) {
+                    NewsEntry.getNewsList(tag, 1,20, newsList);
+                    return true;
+                }
 
-            @Override
-            protected void onPostExecute(Boolean success) {
-                adapter.notifyDataSetChanged();
-            }
-        }.execute();
+                @Override
+                protected void onPostExecute(Boolean success) {
+                    adapter.notifyDataSetChanged();
+                }
+            }.execute();
 
-        // Set up refresher and footer
-        final RefreshLayout refreshLayout = (RefreshLayout)view.findViewById(R.id.refreshLayout);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(final RefreshLayout refreshlayout) {
-                Toast.makeText(getContext(), "Oh this is shitting refreshing", Toast.LENGTH_LONG).show();
-                new AsyncTask<String, Void, Boolean>() {
-                    @Override
-                    protected Boolean doInBackground(String... strings) {
-                        newsList.clear();
-                        NewsEntry.getNewsList(tag, 1, newsList);
-                        return true;
-                    }
+            // Set up refresher and footer
+            final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
+            refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(final RefreshLayout refreshlayout) {
+                    Toast.makeText(getContext(), "Oh this is shitting refreshing", Toast.LENGTH_LONG).show();
+                    new AsyncTask<String, Void, Boolean>() {
+                        @Override
+                        protected Boolean doInBackground(String... strings) {
+                            newsList.clear();
+                            NewsEntry.getNewsList(tag, 1,20, newsList);
+                            return true;
+                        }
 
-                    @Override
-                    protected void onPostExecute(Boolean success) {
-                        adapter.notifyDataSetChanged();
-                        refreshlayout.finishRefresh();//传入false表示刷新失败
-                    }
-                }.execute();
-            }
-        });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(final RefreshLayout refreshlayout) {
-                Toast.makeText(getContext(), "Oh this is shitting loading more", Toast.LENGTH_LONG).show();
-                new AsyncTask<String, Void, Boolean>() {
-                    @Override
-                    protected Boolean doInBackground(String... strings) {
-                        NewsEntry.getNewsList(tag, adapter.nextPageNum(), newsList);
-                        return true;
-                    }
+                        @Override
+                        protected void onPostExecute(Boolean success) {
+                            adapter.notifyDataSetChanged();
+                            refreshlayout.finishRefresh();//传入false表示刷新失败
+                        }
+                    }.execute();
+                }
+            });
+            refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(final RefreshLayout refreshlayout) {
+                    Toast.makeText(getContext(), "Oh this is shitting loading more", Toast.LENGTH_LONG).show();
+                    new AsyncTask<String, Void, Boolean>() {
+                        @Override
+                        protected Boolean doInBackground(String... strings) {
+                            NewsEntry.getNewsList(tag, adapter.nextPageNum(),20, newsList);
+                            return true;
+                        }
 
-                    @Override
-                    protected void onPostExecute(Boolean success) {
-                        adapter.notifyDataSetChanged();
-                        refreshlayout.finishLoadMore();//传入false表示加载失败
-                    }
-                }.execute();
-            }
-        });
+                        @Override
+                        protected void onPostExecute(Boolean success) {
+                            adapter.notifyDataSetChanged();
+                            refreshlayout.finishLoadMore();//传入false表示加载失败
+                        }
+                    }.execute();
+                }
+            });
+        }
         return view;
     }
 
