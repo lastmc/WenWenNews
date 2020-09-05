@@ -43,14 +43,7 @@ public class NewsListFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
-        setHasOptionsMenu(true);
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater){
-        menuInflater.inflate(R.menu.tool_bar_menu,menu);
-        super.onCreateOptionsMenu(menu,menuInflater);
     }
 
     private void switchNewsFragment(Fragment targetFragment) {
