@@ -34,6 +34,7 @@ public class NewsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
         List<String> list = new ArrayList<>();
+        list.add("all");
         list.add("news");
         list.add("paper");
 
