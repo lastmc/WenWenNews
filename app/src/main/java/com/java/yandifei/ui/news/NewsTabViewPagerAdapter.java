@@ -22,7 +22,7 @@ public class NewsTabViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public Fragment createFragment(int position){
-        return new NewsListFragment(NewsEntry.genNewsListByTag(list.get(position)));
+        return new NewsListFragment(list.get(position));
     }
 
     @Override

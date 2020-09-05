@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.java.yandifei.R;
@@ -19,10 +20,14 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
     private List<NewsEntry> newsList;
     private OnItemClickListener onItemClickListener;
     private int pageNum;
+    private final CharSequence tag;
+    private final FragmentActivity activity;
     public static final int entryNumPerPage = 20;
 
-    NewsItemRecyclerViewAdapter(List<NewsEntry> newsList) {
+    NewsItemRecyclerViewAdapter(List<NewsEntry> newsList, CharSequence tag, FragmentActivity activity) {
         this.newsList = newsList;
+        this.tag = tag;
+        this.activity = activity;
         this.pageNum = 1;
     }
 
@@ -40,7 +45,7 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
         if (newsList != null && position < newsList.size() && position < pageNum*entryNumPerPage) {
             NewsEntry news = newsList.get(position);
             holder.newsTitle.setText(news.title);
-            holder.newsDescription.setText(news.description);
+            holder.newsDescription.setText(news.type);
             holder.itemView.setTag(position);
         }
     }
@@ -50,13 +55,9 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
         return min(newsList.size(), pageNum*entryNumPerPage);
     }
 
-    public void refresh() {
-        notifyDataSetChanged();
-    }
-
-    public void loadMore() {
+    public int nextPageNum() {
         pageNum += 1;
-        notifyDataSetChanged();
+        return pageNum;
     }
 
     @Override

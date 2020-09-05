@@ -30,8 +30,8 @@ public class NewsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
         List<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("2");
+        list.add("news");
+        list.add("papers");
 
         bindTabWithViewPager(view,list);
 
