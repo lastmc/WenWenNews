@@ -5,4 +5,5 @@
     <string name="title_search">搜索</string>
     <string name="news_item_title">新闻题目</string>
     <string name="news_item_description">新闻描述</string>
+    <string name="news_activity_title">正文</string>
 </resources>

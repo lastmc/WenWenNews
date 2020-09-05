@@ -1,5 +1,6 @@
 package com.java.yandifei.ui.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class NewsListFragment extends Fragment {
         this.newsList = newsList;
     }
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
 
@@ -42,6 +43,9 @@ public class NewsListFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 System.out.println("mylog: change page to " + newsList.get(position));
+                Intent intent = new Intent();
+                intent.setClass(getActivity(),NewsContentActivity.class);
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);
