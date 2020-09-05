@@ -25,13 +25,8 @@ import java.util.List;
 
 public class NewsFragment extends Fragment {
 
-    private NewsViewModel newsViewModel;
-    private Fragment currentNewsList;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        newsViewModel =
-                ViewModelProviders.of(this).get(NewsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
         List<String> list = new ArrayList<>();
