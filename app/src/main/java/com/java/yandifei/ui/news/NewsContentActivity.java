@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.java.yandifei.R;
-import com.java.yandifei.network.NewsContentEntry;
+import com.java.yandifei.network.NewsEntry;
 
 public class NewsContentActivity extends AppCompatActivity {
 
@@ -26,11 +26,12 @@ public class NewsContentActivity extends AppCompatActivity {
             }
         });
 
-        loadNewsContent(NewsContentEntry.getNewsById("-1"));
+        loadNewsContent((NewsEntry) getIntent().getSerializableExtra("data"));
 
     }
 
-    private void loadNewsContent(NewsContentEntry entry){
+    private void loadNewsContent(NewsEntry entry){
+        System.out.println(entry);
         TextView title = findViewById(R.id.news_title);
         TextView content = findViewById(R.id.news_content);
         TextView author = findViewById(R.id.news_author);

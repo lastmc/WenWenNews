@@ -35,7 +35,7 @@ public class NewsFragment extends Fragment {
 
         List<String> list = new ArrayList<>();
         list.add("news");
-        list.add("papers");
+        list.add("paper");
 
         bindTabWithViewPager(view,list);
 
