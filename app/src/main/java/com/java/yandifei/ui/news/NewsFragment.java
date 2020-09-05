@@ -62,7 +62,7 @@ public class NewsFragment extends Fragment {
 
     private void bindTabWithViewPager(View view,final List<? extends CharSequence> list){
         final TabLayout tabLayout = view.findViewById(R.id.news_tabs);
-        final ViewPager2 viewPager2 = view.findViewById(R.id.news_container);
+        final ViewPager2 viewPager2 = view.findViewById(R.id.news_list_container);
         final NewsTabViewPagerAdapter adapter = new NewsTabViewPagerAdapter(list,getActivity());
         for(CharSequence c:list)
             tabLayout.addTab(tabLayout.newTab().setText(c));

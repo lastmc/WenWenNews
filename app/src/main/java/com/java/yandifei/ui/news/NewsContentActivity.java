@@ -26,8 +26,5 @@ public class NewsContentActivity extends AppCompatActivity {
             }
         });
 
-        TextView textView = findViewById(R.id.news_content);
-        textView.setText(Html.fromHtml("<h1>Hello</h1>",Html.FROM_HTML_MODE_LEGACY));
-
     }
 }
