@@ -16,6 +16,7 @@
     <style name="NewsTitle" parent="Content">
         <item name="android:textSize">40dp</item>
         <item name="android:paddingVertical">16dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
     <style name="NewsAuthor" parent="Content">
         <item name="android:textSize">14dp</item>

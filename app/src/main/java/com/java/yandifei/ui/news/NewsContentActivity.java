@@ -4,11 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import com.java.yandifei.R;
+import com.java.yandifei.network.NewsContentEntry;
 
 public class NewsContentActivity extends AppCompatActivity {
 
@@ -26,5 +26,16 @@ public class NewsContentActivity extends AppCompatActivity {
             }
         });
 
+        loadNewsContent(NewsContentEntry.getNewsById("-1"));
+
+    }
+
+    private void loadNewsContent(NewsContentEntry entry){
+        TextView title = findViewById(R.id.news_title);
+        TextView content = findViewById(R.id.news_content);
+        TextView author = findViewById(R.id.news_author);
+        title.setText(entry.title);
+        content.setText(entry.content);//Provide html support?
+        author.setText(entry.source+" · "+entry.time);
     }
 }

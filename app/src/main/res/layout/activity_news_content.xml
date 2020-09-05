@@ -39,19 +39,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/NewsTitle"
-            android:text="烤面筋"/>
+            android:text="Title"/>
         <TextView
             android:id="@+id/news_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/NewsAuthor"
-            android:text="纯·简拉基·茨德"/>
+            android:text="Author"/>
         <TextView
             android:id="@+id/news_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/NewsContent"
-            android:text="香香的口味\n你尝过没"/>
+            android:text="Content\nContent"/>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
