@@ -8,4 +8,23 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Content" parent="Theme.AppCompat">
+        <item name="android:paddingHorizontal">12dp</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+    <style name="NewsTitle" parent="Content">
+        <item name="android:textSize">40dp</item>
+        <item name="android:paddingVertical">16dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="NewsAuthor" parent="Content">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">#666666</item>
+    </style>
+    <style name="NewsContent" parent="Content">
+        <item name="android:textSize">20dp</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+    </style>
+
 </resources>

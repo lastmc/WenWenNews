@@ -1,11 +1,14 @@
 package com.java.yandifei.ui.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.java.yandifei.R;
 import com.java.yandifei.network.NewsEntry;
+import com.java.yandifei.ui.search.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,10 +49,20 @@ public class NewsFragment extends Fragment {
         super.onCreateOptionsMenu(menu,menuInflater);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == R.id.tool_bar_search){
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), SearchActivity.class);
+            startActivity(intent);
+        }
+        return true;
+    }
+
 
     private void bindTabWithViewPager(View view,final List<? extends CharSequence> list){
         final TabLayout tabLayout = view.findViewById(R.id.news_tabs);
-        final ViewPager2 viewPager2 = view.findViewById(R.id.news_container);
+        final ViewPager2 viewPager2 = view.findViewById(R.id.news_list_container);
         final NewsTabViewPagerAdapter adapter = new NewsTabViewPagerAdapter(list,getActivity());
         for(CharSequence c:list)
             tabLayout.addTab(tabLayout.newTab().setText(c));
