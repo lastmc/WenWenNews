@@ -46,6 +46,7 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
     public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int position) {
         if (newsList != null && position < newsList.size() && position < pageNum*entryNumPerPage) {
             NewsEntry news = newsList.get(position);
+            if(news == null) System.out.println("MYLOG NULL");
             holder.newsTitle.setText(news.title);
             holder.newsDescription.setText(news.source + " | " + news.time);
             holder.itemView.setTag(position);
@@ -81,5 +82,10 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    @Override
+    public long getItemId(int position){
+        return newsList.get(position)._id.hashCode();
     }
 }

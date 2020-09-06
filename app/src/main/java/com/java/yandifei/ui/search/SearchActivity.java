@@ -18,6 +18,7 @@ import com.java.yandifei.ui.news.NewsListFragment;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
@@ -75,23 +76,28 @@ public class SearchActivity extends AppCompatActivity {
 
     private void submitSearch(final String key){
         newsListFragment.newsList.clear();
-        new SearchAsyncTask(key,newsListFragment).execute();
+        new SearchAsyncTask(key,newsListFragment,1,10).execute();
     }
 
     private static class SearchAsyncTask extends AsyncTask<String,Void,Boolean>{
-        public String key;
-        public NewsListFragment newsListFragment;
+        int curK;
+        int maxK;
+        String key;
+        NewsListFragment newsListFragment;
         private List<NewsEntry> raw = new ArrayList<>();
 
-        SearchAsyncTask(String key,NewsListFragment newsListFragment){
+        SearchAsyncTask(String key,NewsListFragment newsListFragment,int curK,int maxK){
             this.key = key;
             this.newsListFragment = newsListFragment;
+            this.curK = curK;
+            this.maxK = maxK;
         }
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            for(int i=1;i<100;i++)
-                NewsEntry.getNewsList("all", i, 200, raw);
+            //for(int i=1;i<=2;i++) {
+                NewsEntry.getNewsList("all", curK, 200, raw);
+            //}
             return true;
         }
 
@@ -99,11 +105,15 @@ public class SearchActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean success) {
             System.out.println("MYLOG Success");
             List<NewsEntry> result = newsListFragment.newsList;
-            for (NewsEntry e : raw)
-                if (e.title.toLowerCase().contains(key.toLowerCase()))
+            for (NewsEntry e : raw) {
+                if(e == null) System.out.println("MYLOG NULL");
+                if (e.title.toLowerCase().contains(key.toLowerCase())) {
                     result.add(e);
-            System.out.println(newsListFragment.newsList.size());
+                }
+            }
+            System.out.println(newsListFragment.newsList.get(newsListFragment.newsList.size()-1).time);
             newsListFragment.adapter.notifyDataSetChanged();
+            //if(curK<maxK) new SearchAsyncTask(key,newsListFragment,curK+1,maxK).execute();
         }
     }
 }
