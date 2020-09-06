@@ -78,9 +78,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private void submitSearch(final String key){
         if (currentTask != null) currentTask.cancel(false);
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {}
         currentTask = new SearchAsyncTask(key,newsListFragment,1,1000);
         newsListFragment.newsList.clear();
         currentTask.execute();
