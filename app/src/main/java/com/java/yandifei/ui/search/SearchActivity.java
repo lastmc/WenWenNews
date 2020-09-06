@@ -16,10 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.java.yandifei.R;
 import com.java.yandifei.network.NewsEntry;
 import com.java.yandifei.ui.news.NewsListFragment;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
@@ -78,7 +76,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void submitSearch(final String key){
         if (currentTask != null) currentTask.cancel(false);
-        currentTask = new SearchAsyncTask(key,newsListFragment,1,1000);
+        currentTask = new SearchAsyncTask(key,newsListFragment,1,300);
         newsListFragment.newsList.clear();
         currentTask.execute();
     }
@@ -99,19 +97,15 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            //for(int i=1;i<=2;i++) {
-                NewsEntry.getNewsList("all", curK, 10, raw);
-            //}
+            NewsEntry.getNewsList("all", curK, 200, raw);
             return true;
         }
 
         @Override
         protected void onPostExecute(Boolean success) {
-            System.out.println("MYLOG Success");
             List<NewsEntry> result = newsListFragment.newsList;
             int start = result.size();
             for (NewsEntry e : raw) {
-                if(e == null) System.out.println("MYLOG NULL");
                 if (e.title.toLowerCase().contains(key.toLowerCase())) {
                     result.add(e);
                 }
