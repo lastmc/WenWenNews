@@ -22,6 +22,7 @@ public class NewsTabViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public Fragment createFragment(int position){
+        if (position == list.size() - 1) return new TabSettingFragment(list);
         return new NewsListFragment(list.get(position));
     }
 

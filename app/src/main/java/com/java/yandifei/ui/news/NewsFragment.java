@@ -37,6 +37,7 @@ public class NewsFragment extends Fragment {
         list.add("all");
         list.add("news");
         list.add("paper");
+        list.add("tabSetting");
 
         bindTabWithViewPager(view,list);
 
@@ -65,14 +66,23 @@ public class NewsFragment extends Fragment {
         final TabLayout tabLayout = view.findViewById(R.id.news_tabs);
         final ViewPager2 viewPager2 = view.findViewById(R.id.news_list_container);
         final NewsTabViewPagerAdapter adapter = new NewsTabViewPagerAdapter(list,getActivity());
-        for(CharSequence c:list)
+        for(CharSequence c:list.subList(0, list.size() - 1))
             tabLayout.addTab(tabLayout.newTab().setText(c));
+        // tab settings
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_baseline_menu_24));
+
         viewPager2.setAdapter(adapter);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = list.indexOf(tab.getText());
-                viewPager2.setCurrentItem(position);
+                if (position != -1)     // to corresponding news list
+                    viewPager2.setCurrentItem(position);
+                else {
+                    // jump to tab settings
+                    Toast.makeText(getContext(), "Hoho, jotarou", Toast.LENGTH_LONG).show();
+                    viewPager2.setCurrentItem(list.size() - 1);
+                }
             }
 
             @Override

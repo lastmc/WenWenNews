@@ -6,4 +6,6 @@
     <string name="news_item_title">新闻题目</string>
     <string name="news_item_description">新闻描述</string>
     <string name="news_activity_title">正文</string>
+    <string name="tab_setting_selected">我的频道</string>
+    <string name="tab_setting_unselected">还可添加</string>
 </resources>
