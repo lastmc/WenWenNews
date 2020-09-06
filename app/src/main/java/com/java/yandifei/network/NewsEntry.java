@@ -122,7 +122,6 @@ public class NewsEntry implements Serializable {
                         }
                     }
                     newsList.add(entry);
-                    System.out.println(entry);
                     if (!newsIsSaved(entry._id))
                         saveNewsEntry(entry);
                 }
