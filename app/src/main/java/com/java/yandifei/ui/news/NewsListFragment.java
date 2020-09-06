@@ -28,6 +28,7 @@ public class NewsListFragment extends Fragment {
     public List<NewsEntry> newsList;
     public Fragment currentNewsList;
     public CharSequence tag = null;
+    public NewsItemRecyclerViewAdapter adapter = null;
 
     public NewsListFragment(){
         this.newsList = new ArrayList<>();
@@ -52,6 +53,7 @@ public class NewsListFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false));
         final NewsItemRecyclerViewAdapter adapter = new NewsItemRecyclerViewAdapter(this.newsList,
                 this.tag, getActivity());
+        this.adapter = adapter;
         adapter.setOnItemClickListener(new NewsItemRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

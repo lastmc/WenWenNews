@@ -1,5 +1,6 @@
 package com.java.yandifei.ui.search;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,11 +15,15 @@ import androidx.fragment.app.FragmentTransaction;
 import com.java.yandifei.R;
 import com.java.yandifei.network.NewsEntry;
 import com.java.yandifei.ui.news.NewsListFragment;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
+
+    private NewsListFragment newsListFragment;
+
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
@@ -62,18 +67,43 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        submitSearch("123");
+        newsListFragment = new NewsListFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.search_result,newsListFragment);
+        ft.commit();
     }
 
-    private void submitSearch(String key){
-        final int largeInt = 100000;
-        List<NewsEntry> raw = new ArrayList<>();
-        NewsEntry.getNewsList("all",1,100000,raw);
-        List<NewsEntry> result = new ArrayList<>();
-        for(NewsEntry e:raw)
-            if(e.title.toLowerCase().contains(key.toLowerCase()))
-                result.add(e);
-        NewsListFragment newsListFragment = new NewsListFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    private void submitSearch(final String key){
+        newsListFragment.newsList.clear();
+        new SearchAsyncTask(key,newsListFragment).execute();
+    }
+
+    private static class SearchAsyncTask extends AsyncTask<String,Void,Boolean>{
+        public String key;
+        public NewsListFragment newsListFragment;
+        private List<NewsEntry> raw = new ArrayList<>();
+
+        SearchAsyncTask(String key,NewsListFragment newsListFragment){
+            this.key = key;
+            this.newsListFragment = newsListFragment;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            for(int i=1;i<100;i++)
+                NewsEntry.getNewsList("all", i, 200, raw);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            System.out.println("MYLOG Success");
+            List<NewsEntry> result = newsListFragment.newsList;
+            for (NewsEntry e : raw)
+                if (e.title.toLowerCase().contains(key.toLowerCase()))
+                    result.add(e);
+            System.out.println(newsListFragment.newsList.size());
+            newsListFragment.adapter.notifyDataSetChanged();
+        }
     }
 }
