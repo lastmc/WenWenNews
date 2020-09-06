@@ -122,8 +122,8 @@ public class NewsEntry implements Serializable {
                         }
                     }
                     newsList.add(entry);
-                    //if (!newsIsSaved(entry._id))
-                        //saveNewsEntry(entry);
+                    if (!newsIsSaved(entry._id))
+                        saveNewsEntry(entry);
                 }
             }
         } catch (UnknownHostException e) {
