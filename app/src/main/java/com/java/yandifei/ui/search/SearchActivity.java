@@ -2,6 +2,7 @@ package com.java.yandifei.ui.search;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity {
 
     private NewsListFragment newsListFragment;
+    private static SearchAsyncTask currentTask;
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -75,8 +77,13 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void submitSearch(final String key){
+        if (currentTask != null) currentTask.cancel(false);
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {}
+        currentTask = new SearchAsyncTask(key,newsListFragment,1,1000);
         newsListFragment.newsList.clear();
-        new SearchAsyncTask(key,newsListFragment,1,10).execute();
+        currentTask.execute();
     }
 
     private static class SearchAsyncTask extends AsyncTask<String,Void,Boolean>{
@@ -96,7 +103,7 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... strings) {
             //for(int i=1;i<=2;i++) {
-                NewsEntry.getNewsList("all", curK, 200, raw);
+                NewsEntry.getNewsList("all", curK, 10, raw);
             //}
             return true;
         }
@@ -105,15 +112,23 @@ public class SearchActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean success) {
             System.out.println("MYLOG Success");
             List<NewsEntry> result = newsListFragment.newsList;
+            int start = result.size();
             for (NewsEntry e : raw) {
                 if(e == null) System.out.println("MYLOG NULL");
                 if (e.title.toLowerCase().contains(key.toLowerCase())) {
                     result.add(e);
                 }
             }
-            System.out.println(newsListFragment.newsList.get(newsListFragment.newsList.size()-1).time);
-            newsListFragment.adapter.notifyDataSetChanged();
-            //if(curK<maxK) new SearchAsyncTask(key,newsListFragment,curK+1,maxK).execute();
+            updateItems(start, result.size());
+            if(curK<maxK) {
+                currentTask = new SearchAsyncTask(key,newsListFragment,curK+1,maxK);
+                currentTask.execute();
+            }
+        }
+
+        public void updateItems(int start, int end) {
+            while (start++ < end)
+                newsListFragment.adapter.notifyItemInserted(start);
         }
     }
 }
