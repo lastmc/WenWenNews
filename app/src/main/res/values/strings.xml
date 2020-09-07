@@ -18,4 +18,6 @@
     <string name="scholar_bio">学者生平</string>
     <string name="scholar_edu">教育经历</string>
     <string name="scholar_work">工作经历</string>
+    <string name="scholar_default">高关注学者</string>
+    <string name="scholar_passed">追忆学者</string>
 </resources>
