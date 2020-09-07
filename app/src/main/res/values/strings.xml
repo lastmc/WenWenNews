@@ -11,6 +11,11 @@
     <string name="tab_setting_unselected">还可添加</string>
     <string name="tab_corona_data">疫情数据</string>
     <string name="tab_corona_figure">疫情图谱</string>
-    <string name="tab_corona_news">疫情新闻聚类</string>
+    <string name="tab_corona_news">新闻聚类</string>
     <string name="tab_corona_scholar">知疫学者</string>
+    <string name="scholar_name">Name</string>
+    <string name="scholar_position">Position</string>
+    <string name="scholar_bio">学者生平</string>
+    <string name="scholar_edu">教育经历</string>
+    <string name="scholar_work">工作经历</string>
 </resources>
