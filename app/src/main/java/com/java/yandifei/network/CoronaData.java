@@ -39,6 +39,14 @@ public class CoronaData implements Serializable {
                     ", risk: " + risk + "inc24: " + inc24 + ")";
         }
 
+        public int getData(String field) {
+            if (field.equals("confirmed")) return confirmed;
+            else if (field.equals("suspected")) return suspected;
+            else if (field.equals("cured")) return cured;
+            else if (field.equals("dead")) return dead;
+            return 0;
+        }
+
         public static OneDayData fromJSONArray(JSONArray list) {
             OneDayData data = new OneDayData();
             data.confirmed = list.getIntValue(0);
@@ -74,8 +82,14 @@ public class CoronaData implements Serializable {
                     (JSONArray)oneDay
             ));
         }
-        Log.d("mylog", coronaData.toString());
         return coronaData;
+    }
+
+    public List<String> getFields() {
+        List<String> fields = new ArrayList<String>();
+        fields.add("confirmed"); fields.add("suspected");
+        fields.add("cured"); fields.add("dead");
+        return fields;
     }
 
     public interface PostExec {

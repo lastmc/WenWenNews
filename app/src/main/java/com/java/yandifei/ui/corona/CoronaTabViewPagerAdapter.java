@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.java.yandifei.ui.news.NewsListFragment;
+import com.java.yandifei.ui.coronadata.CoronaDataListFragment;
 import com.java.yandifei.ui.scholar.ScholarListFragment;
 
 import java.util.List;
@@ -24,6 +24,8 @@ public class CoronaTabViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position){
         switch (position){
+            case 0:
+                return new CoronaDataListFragment();
             case 3:
                 return new ScholarListFragment();
         }
