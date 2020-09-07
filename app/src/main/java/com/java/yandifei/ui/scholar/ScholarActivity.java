@@ -38,6 +38,9 @@ public class ScholarActivity extends AppCompatActivity {
         TextView position = findViewById(R.id.scholar_position);
         TextView edu = findViewById(R.id.scholar_edu);
         TextView work = findViewById(R.id.scholar_work);
+        Toolbar toolbar = findViewById(R.id.scholar_toolbar);
+        if(scholar.is_passedaway) toolbar.setTitle(R.string.scholar_passed);
+        else toolbar.setTitle(R.string.scholar_default);
 
         bio.setText(scholar.profile.bio);
         name.setText(scholar.nameString());
