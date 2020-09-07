@@ -88,7 +88,6 @@ public class Scholar implements Serializable {
                     JSONArray dataArray = ((Map<String, JSONArray>) JSON.parse(result)).get("data");
                     for (int i = 0; i < dataArray.size(); ++i) {
                         Scholar scholar = JSON.parseObject(dataArray.getString(i), Scholar.class);
-                        Log.d("Scholar", scholar.toString());
                         scholarList.add(scholar);
                     }
                 }
