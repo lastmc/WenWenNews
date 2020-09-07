@@ -57,7 +57,6 @@ public class NewsListFragment extends Fragment {
         adapter.setOnItemClickListener(new NewsItemRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                System.out.println("mylog: change page to " + newsList.get(position));
                 Intent intent = new Intent();
                 intent.putExtra("data", newsList.get(position));
                 intent.setClass(getActivity(),NewsContentActivity.class);

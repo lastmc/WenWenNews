@@ -1,16 +1,26 @@
 package com.java.yandifei.network;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -23,6 +33,13 @@ public class Scholar implements Serializable {
         public String edu;
         public String position;
         public String work;
+
+        @Override
+        @NonNull
+        public String toString() {
+            return "Profile(bio: " + bio + ", edu: " + edu +
+                    ", position: " + position + ", work: " + work;
+        }
     }
 
     public String id;
@@ -33,30 +50,113 @@ public class Scholar implements Serializable {
     public boolean is_passedaway;
     public static String scholarUrl = "https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2";
 
+    @Override
+    @NonNull
+    public String toString() {
+        return "Scholar(id: " + id + ", name: " + name + ", name_zh: " + name_zh +
+                ", avatar: " + avatar + ", profile: " + profile +
+                ", is_passedaway: " + is_passedaway;
+    }
 
-    public static void getScholarList(List<Scholar> scholarList) {
-        OkHttpClient client = new OkHttpClient();
-        String url = scholarUrl;
-        final Request request = new Request.Builder().get().url(url).build();
-        Response response = null;
-        try {
-            response = client.newCall(request).execute();
-            if (response.code() == 200) {
-                final String result = response.body().string();
-                JSONArray dataArray = ((Map<String, JSONArray>) JSON.parse(result)).get("data");
-                for (int i = 0; i < dataArray.size(); ++i) {
-                    Scholar scholar = JSON.parseObject(dataArray.getString(i), Scholar.class);
-                    scholarList.add(scholar);
+    public interface PostExec {
+        void onPostExec(boolean success);
+    }
+
+    // to use this async task:
+    // List<Scholar> scholarList = new ArrayList<Scholar>();
+    // new Scholar.GetScholarListAsyncTask(scholarList, new Scholar.PostExec()).execute()
+    public static class GetScholarListAsyncTask extends AsyncTask<String, Void, Boolean> {
+
+        public List<Scholar> scholarList;
+        public PostExec postExec;
+
+        public GetScholarListAsyncTask(List<Scholar> scholarList, PostExec postExec) {
+            this.scholarList = scholarList;
+            this.postExec = postExec;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            boolean success = true;
+            OkHttpClient client = new OkHttpClient();
+            String url = scholarUrl;
+            final Request request = new Request.Builder().get().url(url).build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+                if (response.code() == 200) {
+                    final String result = response.body().string();
+                    JSONArray dataArray = ((Map<String, JSONArray>) JSON.parse(result)).get("data");
+                    for (int i = 0; i < dataArray.size(); ++i) {
+                        Scholar scholar = JSON.parseObject(dataArray.getString(i), Scholar.class);
+                        Log.d("Scholar", scholar.toString());
+                        scholarList.add(scholar);
+                    }
                 }
+            } catch (UnknownHostException e) {
+                // no network access
+                Log.d("Scholar: ", e.toString());
+                success = false;
+            } catch (IOException e) {
+                Log.d("Scholar: ", e.toString());
+                success = false;
+            } finally {
+                if (response != null) response.body().close();
             }
-        } catch (UnknownHostException e) {
-            // no network access
-            Log.d("Scholar: ", e.toString());
-        } catch (IOException e) {
-            Log.d("Scholar: ", e.toString());
-        } finally {
-            if (response != null) response.body().close();
+            return success;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            this.postExec.onPostExec(success);
         }
     }
 
+    public interface PostExecBitmap {
+        void handleBitmap(Bitmap avatar);
+    }
+
+    public static class getBitmap extends AsyncTask<String, Void, Bitmap> {
+
+        private String path;
+        private PostExecBitmap onPost;
+
+        public getBitmap(String path, PostExecBitmap onPost) {
+            this.path = path;
+            this.onPost = onPost;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bitmap = null;
+            boolean success = true;
+            try {
+                //把传过来的路径转成URL
+                URL url = new URL(path);
+                //获取连接
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                //使用GET方法访问网络
+                connection.setRequestMethod("GET");
+                //超时时间为10秒
+                connection.setConnectTimeout(10000);
+                //获取返回码
+                int code = connection.getResponseCode();
+                if (code == 200) {
+                    InputStream inputStream = connection.getInputStream();
+                    //使用工厂把网络的输入流生产Bitmap
+                    bitmap = BitmapFactory.decodeStream(inputStream);
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                // network error
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmaps) {
+            this.onPost.handleBitmap(bitmaps);
+        }
+    }
 }
