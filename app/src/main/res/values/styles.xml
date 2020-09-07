@@ -32,7 +32,7 @@
         <item name="android:paddingVertical">4dp</item>
     </style>
     <style name="ScholarName" parent="Scholar">
-        <item name="android:textSize">30dp</item>
+        <item name="android:textSize">24dp</item>
     </style>
     <style name="ScholarPosition" parent="Scholar">
         <item name="android:textSize">18dp</item>

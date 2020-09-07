@@ -3,12 +3,14 @@ package com.java.yandifei.ui.scholar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.java.yandifei.R;
+import com.java.yandifei.network.GetBitmapAsyncTask;
 import com.java.yandifei.network.Scholar;
 
 public class ScholarActivity extends AppCompatActivity {
@@ -43,6 +45,12 @@ public class ScholarActivity extends AppCompatActivity {
         edu.setText(scholar.profile.edu);
         work.setText(scholar.profile.work);
 
-        ImageView avatar = findViewById(R.id.scholar_avatar);
+        final ImageView imageView = findViewById(R.id.scholar_avatar);
+        new GetBitmapAsyncTask(scholar.avatar, new GetBitmapAsyncTask.PostExecBitmap() {
+            @Override
+            public void handleBitmap(Bitmap avatar) {
+                imageView.setImageBitmap(avatar);
+            }
+        }).execute();
     }
 }

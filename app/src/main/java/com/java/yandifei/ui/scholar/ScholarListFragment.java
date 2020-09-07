@@ -30,10 +30,10 @@ public class ScholarListFragment extends Fragment {
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_scholar_list, container, false);
 
         // Set up the RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.news_list);
+        RecyclerView recyclerView = view.findViewById(R.id.scholar_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1, GridLayoutManager.VERTICAL, false));
         final ScholarItemRecyclerViewAdapter adapter = new ScholarItemRecyclerViewAdapter(this.scholarList);
@@ -51,18 +51,12 @@ public class ScholarListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         // get data from network
-        new AsyncTask<String, Void, Boolean>() {
+        new Scholar.GetScholarListAsyncTask(scholarList, new Scholar.PostExec() {
             @Override
-            protected Boolean doInBackground(String... strings) {
-                Scholar.getScholarList(scholarList);
-                return true;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean success) {
+            public void onPostExec(boolean success) {
                 adapter.notifyDataSetChanged();
             }
-        }.execute();
+        }).execute();
 
         return view;
     }
