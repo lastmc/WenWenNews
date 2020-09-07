@@ -44,7 +44,7 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
 
     @Override
     public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int position) {
-        if (newsList != null && position < newsList.size() && position < pageNum*entryNumPerPage) {
+        if (newsList != null && position < newsList.size() && (position < pageNum*entryNumPerPage || tag == null)) {
             NewsEntry news = newsList.get(position);
             if(news == null) System.out.println("MYLOG NULL");
             holder.newsTitle.setText(news.title);

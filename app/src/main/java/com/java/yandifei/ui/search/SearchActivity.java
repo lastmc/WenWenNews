@@ -1,5 +1,8 @@
 package com.java.yandifei.ui.search;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,16 +17,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.java.yandifei.R;
+import com.java.yandifei.network.MyApplication;
 import com.java.yandifei.network.NewsEntry;
 import com.java.yandifei.ui.news.NewsListFragment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SearchActivity extends AppCompatActivity {
 
     private NewsListFragment newsListFragment;
     private static SearchAsyncTask currentTask;
+    private List<String> history = new ArrayList<>();
+    private ArrayAdapter<String> historyAdapter;
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -38,13 +46,19 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        MyApplication globalVariables = (MyApplication) getApplication();
+        SharedPreferences storage = getSharedPreferences(globalVariables.searchHistory, Context.MODE_PRIVATE);
+        Set<String> historySet = storage.getStringSet("history",null);
+        if(historySet == null) historySet = new HashSet<>();
+        history.addAll(historySet);
+
         final SearchView searchView = findViewById(R.id.search_view);
         final AutoCompleteTextView textView = searchView.findViewById(R.id.search_src_text);
         textView.setThreshold(0);
-        String[] history = {"123","234"};
-        final ArrayAdapter<String> historyAdapter = new ArrayAdapter<>(this,
+        historyAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,history);
         textView.setAdapter(historyAdapter);
+
         textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,6 +90,18 @@ public class SearchActivity extends AppCompatActivity {
 
     private void submitSearch(final String key){
         if (currentTask != null) currentTask.cancel(false);
+
+        MyApplication globalVariables = (MyApplication) getApplication();
+        SharedPreferences storage = getSharedPreferences(globalVariables.searchHistory, Context.MODE_PRIVATE);
+        Set<String> historySet = storage.getStringSet("history",null);
+        if(historySet == null) historySet = new HashSet<>();
+        historySet.add(key);
+        SharedPreferences.Editor editor = storage.edit();
+        editor.putStringSet("history",historySet);
+        editor.apply();
+        historyAdapter.clear();
+        historyAdapter.addAll(historySet);
+
         currentTask = new SearchAsyncTask(key,newsListFragment,1,300);
         newsListFragment.newsList.clear();
         currentTask.execute();
