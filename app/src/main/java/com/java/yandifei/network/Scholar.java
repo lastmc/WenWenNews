@@ -59,4 +59,11 @@ public class Scholar implements Serializable {
         }
     }
 
+    public String nameString(){
+        String nameStr = name_zh;
+        if(nameStr == null || nameStr.length() == 0) nameStr = name;
+        else nameStr += " " + name;
+        return nameStr;
+    }
+
 }

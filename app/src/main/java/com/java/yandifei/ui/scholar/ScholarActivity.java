@@ -37,12 +37,8 @@ public class ScholarActivity extends AppCompatActivity {
         TextView edu = findViewById(R.id.scholar_edu);
         TextView work = findViewById(R.id.scholar_work);
 
-        String nameStr = scholar.name_zh;
-        if(nameStr == null || nameStr.length() == 0) nameStr = scholar.name;
-        else nameStr += " " + scholar.name;
-
         bio.setText(scholar.profile.bio);
-        name.setText(nameStr);
+        name.setText(scholar.nameString());
         position.setText(scholar.profile.position);
         edu.setText(scholar.profile.edu);
         work.setText(scholar.profile.work);
