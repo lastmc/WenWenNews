@@ -3,9 +3,14 @@
     <string name="title_news">新闻</string>
     <string name="title_corona">疫情</string>
     <string name="title_search">搜索</string>
+    <string name="tab_setting">分类</string>
     <string name="news_item_title">新闻题目</string>
     <string name="news_item_description">新闻描述</string>
     <string name="news_activity_title">正文</string>
     <string name="tab_setting_selected">我的频道</string>
     <string name="tab_setting_unselected">还可添加</string>
+    <string name="tab_corona_data">疫情数据</string>
+    <string name="tab_corona_figure">疫情图谱</string>
+    <string name="tab_corona_news">疫情新闻聚类</string>
+    <string name="tab_corona_scholar">知疫学者</string>
 </resources>

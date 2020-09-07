@@ -4,13 +4,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.java.yandifei.network.NewsEntry;
+import com.java.yandifei.ui.tab.TabSettingActivity;
 
 import java.util.List;
 
+import static androidx.viewpager.widget.PagerAdapter.POSITION_NONE;
+
 public class NewsTabViewPagerAdapter extends FragmentStateAdapter {
-    List<? extends CharSequence> list;
-    public NewsTabViewPagerAdapter(List<? extends CharSequence> list, FragmentActivity activity){
+    public List<CharSequence> list;
+    public NewsTabViewPagerAdapter(List<CharSequence> list, FragmentActivity activity){
         super(activity);
         this.list = list;
     }
@@ -22,7 +24,6 @@ public class NewsTabViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public Fragment createFragment(int position){
-        if (position == list.size() - 1) return new TabSettingFragment(list);
         return new NewsListFragment(list.get(position));
     }
 
@@ -30,4 +31,5 @@ public class NewsTabViewPagerAdapter extends FragmentStateAdapter {
     public int getItemCount(){
         return list.size();
     }
+
 }

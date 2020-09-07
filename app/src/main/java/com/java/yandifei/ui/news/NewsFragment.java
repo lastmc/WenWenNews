@@ -2,12 +2,14 @@ package com.java.yandifei.ui.news;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,22 +25,21 @@ import com.google.android.material.tabs.TabLayout;
 import com.java.yandifei.R;
 import com.java.yandifei.network.NewsEntry;
 import com.java.yandifei.ui.search.SearchActivity;
+import com.java.yandifei.ui.tab.TabSettingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewsFragment extends Fragment {
 
+    ArrayList<CharSequence> unselectedList = new ArrayList<CharSequence>();
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        List<String> list = new ArrayList<>();
-        list.add("all");
-        list.add("news");
-        list.add("paper");
-        list.add("tabSetting");
-
+        List<CharSequence> list = new ArrayList<>();
+        TabSettingActivity.getTabs(getActivity(), list, unselectedList);
         bindTabWithViewPager(view,list);
 
         setHasOptionsMenu(true);
@@ -57,32 +58,32 @@ public class NewsFragment extends Fragment {
             Intent intent = new Intent();
             intent.setClass(getActivity(), SearchActivity.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.tab_setting) {
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), TabSettingActivity.class);
+            final ViewPager2 viewPager2 = getView().findViewById(R.id.news_list_container);
+            ArrayList<CharSequence> selected = new ArrayList<CharSequence>();
+            selected.addAll(((NewsTabViewPagerAdapter)viewPager2.getAdapter()).list);
+            intent.putCharSequenceArrayListExtra("selected", selected);
+            intent.putCharSequenceArrayListExtra("unselected", unselectedList);
+            startActivityForResult(intent, 0x5438);
         }
         return true;
     }
 
-
-    private void bindTabWithViewPager(View view,final List<? extends CharSequence> list){
+    private void bindTabWithViewPager(View view,final List<CharSequence> list){
         final TabLayout tabLayout = view.findViewById(R.id.news_tabs);
         final ViewPager2 viewPager2 = view.findViewById(R.id.news_list_container);
         final NewsTabViewPagerAdapter adapter = new NewsTabViewPagerAdapter(list,getActivity());
-        for(CharSequence c:list.subList(0, list.size() - 1))
+        for(CharSequence c:list)
             tabLayout.addTab(tabLayout.newTab().setText(c));
-        // tab settings
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_baseline_menu_24));
 
         viewPager2.setAdapter(adapter);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = list.indexOf(tab.getText());
-                if (position != -1)     // to corresponding news list
-                    viewPager2.setCurrentItem(position);
-                else {
-                    // jump to tab settings
-                    Toast.makeText(getContext(), "Hoho, jotarou", Toast.LENGTH_LONG).show();
-                    viewPager2.setCurrentItem(list.size() - 1);
-                }
+                viewPager2.setCurrentItem(position);
             }
 
             @Override
@@ -99,5 +100,26 @@ public class NewsFragment extends Fragment {
             }
         };
         viewPager2.registerOnPageChangeCallback(callback);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0x5438 && resultCode == 0x5462) {
+            List<CharSequence> unselected = data.getCharSequenceArrayListExtra("unselected");
+            final ViewPager2 viewPager2 = getView().findViewById(R.id.news_list_container);
+            // update tabs
+            NewsTabViewPagerAdapter adapter = (NewsTabViewPagerAdapter)viewPager2.getAdapter();
+            adapter.list.clear();
+            adapter.list.addAll(data.getCharSequenceArrayListExtra("selected"));
+            adapter.notifyDataSetChanged();
+            final TabLayout tabLayout = getView().findViewById(R.id.news_tabs);
+            tabLayout.removeAllTabs();
+            for (CharSequence tab : adapter.list) tabLayout.addTab(tabLayout.newTab().setText(tab));
+
+            // update unselected tabs
+            unselectedList.clear();
+            unselectedList.addAll(data.getCharSequenceArrayListExtra("unselected"));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

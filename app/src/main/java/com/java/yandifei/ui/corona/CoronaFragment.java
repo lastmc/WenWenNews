@@ -11,6 +11,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.java.yandifei.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CoronaFragment extends Fragment {
 
     private CoronaViewModel coronaViewModel;
@@ -19,14 +22,15 @@ public class CoronaFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         coronaViewModel =
                 ViewModelProviders.of(this).get(CoronaViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_news_single, container, false);
-        //final TextView textView = root.findViewById(R.id.text);
-        //coronaViewModel.getText().observe(this, new Observer<String>() {
-        //    @Override
-        //    public void onChanged(@Nullable String s) {
-        //        textView.setText(s);
-        //    }
-        //});
+        View root = inflater.inflate(R.layout.fragment_corona, container, false);
+        List<CharSequence> list = new ArrayList<>();
+        list.add(getString(R.string.tab_corona_data));
+        list.add(getString(R.string.tab_corona_figure));
+        list.add(getString(R.string.tab_corona_news));
+        list.add(getString(R.string.tab_corona_scholar));
+
+        //bindTabWithViewPager(view,list);
+        setHasOptionsMenu(true);
         return root;
     }
 }
