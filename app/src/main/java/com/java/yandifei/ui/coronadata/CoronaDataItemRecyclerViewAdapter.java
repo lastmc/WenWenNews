@@ -1,5 +1,6 @@
 package com.java.yandifei.ui.coronadata;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -23,6 +26,7 @@ import java.util.Map;
 
 public class CoronaDataItemRecyclerViewAdapter extends RecyclerView.Adapter<CoronaDataItemViewHolder> {
     private List<CoronaData> coronaDataList;
+    private Context context;
 
     CoronaDataItemRecyclerViewAdapter(List<CoronaData> coronaDataList){
         this.coronaDataList = coronaDataList;
@@ -34,6 +38,7 @@ public class CoronaDataItemRecyclerViewAdapter extends RecyclerView.Adapter<Coro
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.fragment_corona_data_item, parent, false);
         CoronaDataItemViewHolder viewHolder = new CoronaDataItemViewHolder(layoutView);
+        this.context = parent.getContext();
         //layoutView.setOnClickListener(this);
         return viewHolder;
     }
@@ -43,7 +48,7 @@ public class CoronaDataItemRecyclerViewAdapter extends RecyclerView.Adapter<Coro
         if (coronaDataList != null && position < coronaDataList.size()) {
             CoronaData coronaData = coronaDataList.get(position);
             holder.district.setText(coronaData.district);
-            holder.beginTime.setText(coronaData.begin);
+            holder.beginTime.setText(context.getText(R.string.corona_data_begin_time)+ coronaData.begin);
             // line chart data
             List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             for (String label : coronaData.getFields()) {
@@ -53,8 +58,14 @@ public class CoronaDataItemRecyclerViewAdapter extends RecyclerView.Adapter<Coro
                 LineDataSet dataSet = new LineDataSet(entries, label);
                 dataSet.setDrawCircles(false);
                 dataSet.setColor(coronaData.fieldToColor(label));
+                dataSet.setLineWidth(3);
                 dataSets.add(dataSet);
             }
+            XAxis xAxis = holder.lineChart.getXAxis();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setDrawGridLines(false);
+            Description description = holder.lineChart.getDescription();
+            description.setText(context.getText(R.string.corona_data_x_description).toString());
             holder.lineChart.setDrawGridBackground(false);
             holder.lineChart.setData(new LineData(dataSets));
             holder.lineChart.invalidate();

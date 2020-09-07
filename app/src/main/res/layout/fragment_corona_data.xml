@@ -8,11 +8,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:theme="@style/Theme.MaterialComponents.Light">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/corona_data_china"/>
+                android:text="@string/corona_data_china"
+                android:textAppearance="?attr/textAppearanceHeadline6"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/corona_data_list_china"
                 android:layout_width="match_parent"
@@ -21,7 +23,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/corona_data_global"/>
+                android:text="@string/corona_data_global"
+                android:textAppearance="?attr/textAppearanceHeadline6"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/corona_data_global"
                 android:layout_width="match_parent"
