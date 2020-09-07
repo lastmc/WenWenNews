@@ -31,10 +31,10 @@ public class Scholar implements Serializable {
     public String avatar;   // url of avatar
     public Profile profile;
     public boolean is_passedaway;
-    public static String scholarUrl = "https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2"
+    public static String scholarUrl = "https://innovaapi.aminer.cn/predictor/api/v1/valhalla/highlight/get_ncov_expers_list?v=2";
 
 
-    public void getScholarList(List<Scholar> scholarList) {
+    public static void getScholarList(List<Scholar> scholarList) {
         OkHttpClient client = new OkHttpClient();
         String url = scholarUrl;
         final Request request = new Request.Builder().get().url(url).build();
