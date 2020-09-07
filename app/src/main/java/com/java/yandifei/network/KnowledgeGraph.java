@@ -2,6 +2,7 @@ package com.java.yandifei.network;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.SectionIndexer;
 
 import androidx.annotation.NonNull;
 
@@ -20,7 +21,7 @@ import okhttp3.Response;
 
 public class KnowledgeGraph implements Serializable {
 
-    public static class Relation {
+    public static class Relation implements Serializable{
 
         public String relation;
         public String url;
@@ -35,7 +36,7 @@ public class KnowledgeGraph implements Serializable {
         }
     }
 
-    public static class Covid {
+    public static class Covid implements Serializable{
 
 
         public Map<String, String> properties;
@@ -47,7 +48,7 @@ public class KnowledgeGraph implements Serializable {
             return "Covid(properties: " + properties + ", relations: " + relations + ")";
         }
     }
-    public static class AbstractInfo {
+    public static class AbstractInfo implements Serializable {
 
 
         public String enwiki;
@@ -81,6 +82,10 @@ public class KnowledgeGraph implements Serializable {
     public String toString() {
         return "KnowledgeGraph(hot: " + hot + ", label: " + label +
                 ", img: " + img + ", abstract info: " + abstractInfo + ")";
+    }
+
+    public String getBrief() {
+        return "Hot Value : " + hot;
     }
 
     public interface PostExec {

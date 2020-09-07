@@ -10,7 +10,7 @@
     <string name="tab_setting_selected">我的频道</string>
     <string name="tab_setting_unselected">还可添加</string>
     <string name="tab_corona_data">疫情数据</string>
-    <string name="tab_corona_figure">疫情图谱</string>
+    <string name="tab_corona_knowledge">疫情图谱</string>
     <string name="tab_corona_news">新闻聚类</string>
     <string name="tab_corona_scholar">知疫学者</string>
     <string name="scholar_name">Name</string>
@@ -20,4 +20,12 @@
     <string name="scholar_work">工作经历</string>
     <string name="scholar_default">高关注学者</string>
     <string name="scholar_passed">追忆学者</string>
+    <string name="entity_name">Name</string>
+    <string name="entity_description">Description</string>
+    <string name="entity_relation">Relations</string>
+    <string name="entity_brief">Brief description</string>
+    <string name="entity_property">Properties</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

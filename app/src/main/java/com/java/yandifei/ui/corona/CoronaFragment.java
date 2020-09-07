@@ -22,7 +22,7 @@ public class CoronaFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_corona, container, false);
         List<CharSequence> list = new ArrayList<>();
         list.add(getString(R.string.tab_corona_data));
-        list.add(getString(R.string.tab_corona_figure));
+        list.add(getString(R.string.tab_corona_knowledge));
         list.add(getString(R.string.tab_corona_news));
         list.add(getString(R.string.tab_corona_scholar));
 
