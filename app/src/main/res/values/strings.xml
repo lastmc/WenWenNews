@@ -25,7 +25,9 @@
     <string name="entity_relation">Relations</string>
     <string name="entity_brief">Brief description</string>
     <string name="entity_property">Properties</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="corona_data_china">国内</string>
+    <string name="corona_data_global">全球</string>
+    <string name="corona_data_x_description">自开始日期的天数</string>
+    <string name="corona_data_tip">提示：右划切换下一个地区</string>
+    <string name="corona_data_begin_time">开始统计时间：</string>
 </resources>
