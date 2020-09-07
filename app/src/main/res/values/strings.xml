@@ -20,4 +20,6 @@
     <string name="scholar_work">工作经历</string>
     <string name="scholar_default">高关注学者</string>
     <string name="scholar_passed">追忆学者</string>
+    <string name="corona_data_china">国内</string>
+    <string name="corona_data_global">全球</string>
 </resources>
