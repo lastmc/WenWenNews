@@ -30,11 +30,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-	// refresh
-    implementation  'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
-	implementation  'com.scwang.smart:refresh-header-material:2.0.1'    //谷歌刷新头
-    implementation  'com.scwang.smart:refresh-footer-classics:2.0.1'    //谷歌刷新尾
-    implementation  'com.scwang.smart:refresh-footer-ball:2.0.1'        //球脉冲加载
+    // refresh
+    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
+    implementation 'com.scwang.smart:refresh-header-material:2.0.1'    //谷歌刷新头
+    implementation 'com.scwang.smart:refresh-footer-classics:2.0.1'    //谷歌刷新尾
+    implementation 'com.scwang.smart:refresh-footer-ball:2.0.1'        //球脉冲加载
     // okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     // fastJson
