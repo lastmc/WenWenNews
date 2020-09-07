@@ -7,15 +7,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.java.yandifei.R;
 import com.java.yandifei.network.CoronaData;
 import com.java.yandifei.network.Scholar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CoronaDataItemRecyclerViewAdapter extends RecyclerView.Adapter<CoronaDataItemViewHolder> {
     private List<CoronaData> coronaDataList;
@@ -41,11 +45,18 @@ public class CoronaDataItemRecyclerViewAdapter extends RecyclerView.Adapter<Coro
             holder.district.setText(coronaData.district);
             holder.beginTime.setText(coronaData.begin);
             // line chart data
-            List<Entry> entries = new ArrayList<Entry>();
-            for (int i = 0; i < coronaData.dataOfDays.size(); ++i)
-                entries.add(new Entry(i, coronaData.dataOfDays.get(i).confirmed));
-            LineDataSet dataSet = new LineDataSet(entries, "confirmed");
-            holder.lineChart.setData(new LineData(dataSet));
+            List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+            for (String label : coronaData.getFields()) {
+                List<Entry> entries = new ArrayList<Entry>();
+                for (int i = 0; i < coronaData.dataOfDays.size(); ++i)
+                    entries.add(new Entry(i, coronaData.dataOfDays.get(i).getData(label)));
+                LineDataSet dataSet = new LineDataSet(entries, label);
+                dataSet.setDrawCircles(false);
+                dataSet.setColor(coronaData.fieldToColor(label));
+                dataSets.add(dataSet);
+            }
+            holder.lineChart.setDrawGridBackground(false);
+            holder.lineChart.setData(new LineData(dataSets));
             holder.lineChart.invalidate();
             holder.itemView.setTag(position);
         }

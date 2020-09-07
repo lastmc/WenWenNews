@@ -22,4 +22,6 @@
     <string name="scholar_passed">追忆学者</string>
     <string name="corona_data_china">国内</string>
     <string name="corona_data_global">全球</string>
+    <string name="corona_data_x_description">自开始日期的天数</string>
+    <string name="corona_data_tip">提示：右划切换下一个地区</string>
 </resources>

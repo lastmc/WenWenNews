@@ -29,20 +29,17 @@
         <!-- Title, secondary and supporting text -->
         <TextView
             android:id="@+id/district"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/news_item_title"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            />
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
         <TextView
             android:id="@+id/begin_time"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/news_item_description"
             android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?android:attr/textColorSecondary"
-            />
+            android:textColor="?android:attr/textColorSecondary" />
         <!--TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +51,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="434dp"/>
 
     </LinearLayout>
 
