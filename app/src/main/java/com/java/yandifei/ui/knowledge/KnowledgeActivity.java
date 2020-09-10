@@ -59,16 +59,17 @@ public class KnowledgeActivity extends AppCompatActivity {
             Bundle arg = new Bundle();
             arg.putCharSequence("text",r.relation);
             arg.putCharSequence("object",r.label);
+            arg.putBoolean("forward",r.forward);
             erf.setArguments(arg);
             ft.add(R.id.entity_relation,erf);
         }
         for(String key:kg.abstractInfo.covid.properties.keySet()){
-            EntityRelationFragment erf = new EntityRelationFragment();
+            EntityPropertyFragment epf = new EntityPropertyFragment();
             Bundle arg = new Bundle();
             arg.putCharSequence("text",key);
             arg.putCharSequence("object",kg.abstractInfo.covid.properties.get(key));
-            erf.setArguments(arg);
-            ft.add(R.id.entity_property,erf);
+            epf.setArguments(arg);
+            ft.add(R.id.entity_property,epf);
         }
         ft.commit();
     }

@@ -30,4 +30,5 @@
     <string name="corona_data_x_description">自开始日期的天数</string>
     <string name="corona_data_tip">提示：右划切换下一个地区</string>
     <string name="corona_data_begin_time">开始统计时间：</string>
+    <string name="share">分享</string>
 </resources>
