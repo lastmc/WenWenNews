@@ -40,6 +40,8 @@ public class NewsEntry implements Serializable {
     public String source;
     public String content;
     public String type;
+    public String theme;    // for news cluster, number
+    public String tag;      // for news cluster, tag
     public List<Author> authors = new ArrayList<Author>();
     private static FragmentActivity activity;
     private static MyApplication globalVariables;
@@ -53,7 +55,7 @@ public class NewsEntry implements Serializable {
     public String toString() {
         return "NewsEntry(_id: " + _id + ", title: " + title + ", time: " + time+
                 ", source: " + source + ", content: " + content + ", type: " + type +
-                ", authors: " + authors + ")";
+                ", authors: " + authors + ", theme: " + theme + ")";
     }
 
     public static void setActivity(FragmentActivity activity) {
