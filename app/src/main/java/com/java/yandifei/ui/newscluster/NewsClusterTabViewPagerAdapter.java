@@ -16,7 +16,8 @@ public class NewsClusterTabViewPagerAdapter extends FragmentStateAdapter {
     public List<CharSequence> list;
     public NewsClusterTabViewPagerAdapter(List<CharSequence> list, FragmentActivity activity){
         super(activity);
-        this.list = new ArrayList<>();
+        this.list = list;
+        list.clear();
         this.list.add(activity.getString(R.string.theme0));
         this.list.add(activity.getString(R.string.theme1));
         this.list.add(activity.getString(R.string.theme2));

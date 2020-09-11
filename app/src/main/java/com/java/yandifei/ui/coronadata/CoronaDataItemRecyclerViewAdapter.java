@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.components.Description;
@@ -14,6 +15,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.java.yandifei.R;
 import com.java.yandifei.network.CoronaData;
@@ -56,9 +59,10 @@ public class CoronaDataItemRecyclerViewAdapter extends RecyclerView.Adapter<Coro
                 for (int i = 0; i < coronaData.dataOfDays.size(); ++i)
                     entries.add(new Entry(i, coronaData.dataOfDays.get(i).getData(label)));
                 LineDataSet dataSet = new LineDataSet(entries, label);
+                dataSet.setDrawValues(false);
                 dataSet.setDrawCircles(false);
                 dataSet.setColor(coronaData.fieldToColor(label));
-                dataSet.setLineWidth(3);
+                dataSet.setLineWidth(3f);
                 dataSets.add(dataSet);
             }
             XAxis xAxis = holder.lineChart.getXAxis();

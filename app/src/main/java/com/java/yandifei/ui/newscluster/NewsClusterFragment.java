@@ -30,7 +30,6 @@ public class NewsClusterFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
         List<CharSequence> list = new ArrayList<>();
-        TabSettingActivity.getTabs(getActivity(), list, unselectedList);
         bindTabWithViewPager(view,list);
 
         setHasOptionsMenu(false);
@@ -74,24 +73,4 @@ public class NewsClusterFragment extends Fragment {
         viewPager2.registerOnPageChangeCallback(callback);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0x5438 && resultCode == 0x5462) {
-            List<CharSequence> unselected = data.getCharSequenceArrayListExtra("unselected");
-            final ViewPager2 viewPager2 = getView().findViewById(R.id.news_list_container);
-            // update tabs
-            NewsClusterTabViewPagerAdapter adapter = (NewsClusterTabViewPagerAdapter)viewPager2.getAdapter();
-            adapter.list.clear();
-            adapter.list.addAll(data.getCharSequenceArrayListExtra("selected"));
-            adapter.notifyDataSetChanged();
-            final TabLayout tabLayout = getView().findViewById(R.id.news_tabs);
-            tabLayout.removeAllTabs();
-            for (CharSequence tab : adapter.list) tabLayout.addTab(tabLayout.newTab().setText(tab));
-
-            // update unselected tabs
-            unselectedList.clear();
-            unselectedList.addAll(data.getCharSequenceArrayListExtra("unselected"));
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 }

@@ -83,7 +83,6 @@ public class NewsClusterListFragment extends Fragment {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(final RefreshLayout refreshlayout) {
-                Toast.makeText(getContext(), "Oh this is shitting loading more", Toast.LENGTH_LONG).show();
                 adapter.nextPageNum();
                 adapter.notifyDataSetChanged();
                 refreshlayout.finishLoadMore();//传入false表示加载失败
