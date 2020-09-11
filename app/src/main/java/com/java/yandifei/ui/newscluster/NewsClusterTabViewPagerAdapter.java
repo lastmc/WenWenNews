@@ -9,19 +9,19 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.java.yandifei.R;
 import com.java.yandifei.ui.news.NewsListFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsClusterTabViewPagerAdapter extends FragmentStateAdapter {
     public List<CharSequence> list;
     public NewsClusterTabViewPagerAdapter(List<CharSequence> list, FragmentActivity activity){
         super(activity);
-        this.list = list;
-        list.clear();
-        list.add(activity.getString(R.string.theme0));
-        list.add(activity.getString(R.string.theme1));
-        list.add(activity.getString(R.string.theme2));
-        list.add(activity.getString(R.string.theme3));
-        list.add(activity.getString(R.string.theme4));
+        this.list = new ArrayList<>();
+        this.list.add(activity.getString(R.string.theme0));
+        this.list.add(activity.getString(R.string.theme1));
+        this.list.add(activity.getString(R.string.theme2));
+        this.list.add(activity.getString(R.string.theme3));
+        this.list.add(activity.getString(R.string.theme4));
     }
 
     @Override

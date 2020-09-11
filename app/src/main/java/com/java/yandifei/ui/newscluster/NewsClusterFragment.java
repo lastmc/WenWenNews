@@ -43,25 +43,6 @@ public class NewsClusterFragment extends Fragment {
         super.onCreateOptionsMenu(menu,menuInflater);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == R.id.tool_bar_search){
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), SearchActivity.class);
-            startActivity(intent);
-        } else if (item.getItemId() == R.id.tab_setting) {
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), TabSettingActivity.class);
-            final ViewPager2 viewPager2 = getView().findViewById(R.id.news_list_container);
-            ArrayList<CharSequence> selected = new ArrayList<CharSequence>();
-            selected.addAll(((NewsClusterTabViewPagerAdapter)viewPager2.getAdapter()).list);
-            intent.putCharSequenceArrayListExtra("selected", selected);
-            intent.putCharSequenceArrayListExtra("unselected", unselectedList);
-            startActivityForResult(intent, 0x5438);
-        }
-        return true;
-    }
-
     private void bindTabWithViewPager(View view,final List<CharSequence> list){
         final TabLayout tabLayout = view.findViewById(R.id.news_tabs);
         final ViewPager2 viewPager2 = view.findViewById(R.id.news_list_container);
