@@ -1,6 +1,7 @@
 package com.java.yandifei.ui.news;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +51,9 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
             holder.newsTitle.setText(news.title);
             holder.newsDescription.setText(news.source + " | " + news.time);
             holder.itemView.setTag(position);
-            if (NewsEntry.newsIsRead(news._id))
+            if (NewsEntry.newsIsRead(news._id)) {
                 holder.setAllTextColor(Color.rgb(200, 200, 200));
+            } else holder.resetTextColor();
         }
     }
 
@@ -64,6 +66,10 @@ public class NewsItemRecyclerViewAdapter extends RecyclerView.Adapter<NewsItemVi
     public int nextPageNum() {
         pageNum += 1;
         return pageNum;
+    }
+
+    public int lastInsertPos() {
+        return (pageNum - 1) * entryNumPerPage;
     }
 
     @Override

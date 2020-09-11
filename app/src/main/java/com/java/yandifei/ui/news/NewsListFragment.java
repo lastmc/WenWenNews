@@ -86,7 +86,7 @@ public class NewsListFragment extends Fragment {
             refreshLayout.setOnRefreshListener(new OnRefreshListener() {
                 @Override
                 public void onRefresh(final RefreshLayout refreshlayout) {
-                    Toast.makeText(getContext(), "Oh this is shitting refreshing", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Refreshing ...", Toast.LENGTH_LONG).show();
                     new AsyncTask<String, Void, Boolean>() {
                         @Override
                         protected Boolean doInBackground(String... strings) {
@@ -107,7 +107,7 @@ public class NewsListFragment extends Fragment {
             refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
                 @Override
                 public void onLoadMore(final RefreshLayout refreshlayout) {
-                    Toast.makeText(getContext(), "Oh this is shitting loading more", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Loading more ...", Toast.LENGTH_LONG).show();
                     new AsyncTask<String, Void, Boolean>() {
                         @Override
                         protected Boolean doInBackground(String... strings) {
@@ -118,7 +118,8 @@ public class NewsListFragment extends Fragment {
 
                         @Override
                         protected void onPostExecute(Boolean success) {
-                            adapter.notifyDataSetChanged();
+                            adapter.notifyItemRangeInserted(adapter.lastInsertPos(),
+                                    NewsItemRecyclerViewAdapter.entryNumPerPage);
                             refreshlayout.finishLoadMore();//传入false表示加载失败
                         }
                     }.execute();

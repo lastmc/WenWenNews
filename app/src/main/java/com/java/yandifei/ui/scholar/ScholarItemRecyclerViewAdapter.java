@@ -34,7 +34,9 @@ public class ScholarItemRecyclerViewAdapter extends RecyclerView.Adapter<Scholar
     public void onBindViewHolder(@NonNull ScholarItemViewHolder holder, int position) {
         if (scholarList != null && position < scholarList.size()) {
             Scholar scholar = scholarList.get(position);
-            holder.scholarName.setText(scholar.nameString());
+            String name = scholar.nameString();
+            if (scholar.is_passedaway) name += "（追忆）";
+            holder.scholarName.setText(name);
             holder.scholarPosition.setText(scholar.profile.position);
             holder.itemView.setTag(position);
         }
