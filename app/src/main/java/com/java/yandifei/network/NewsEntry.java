@@ -131,17 +131,15 @@ public class NewsEntry implements Serializable {
         } catch (UnknownHostException e) {
             // no network access
             if (newsList.size() == 0) {
-                getAllSavedNews(newsList);
+                List<NewsEntry> allSavedNews = new ArrayList<NewsEntry>();
+                getAllSavedNews(allSavedNews);
+                for (NewsEntry entry : allSavedNews) {
+                    if (entry.type.equals(tag) || tag.equals("all"))
+                        newsList.add(entry);
+                }
                 newsList.sort(new Comparator<NewsEntry>() {
                     @Override
                     public int compare(NewsEntry o1, NewsEntry o2) {
-                        //String[] times1 = o1.time.split(" ");
-                        //String[] times2 = o2.time.split(" ");
-                        //if (times1.length == 1 || times2.length == 1) {
-                        //    return times2[0].replace("/", "-").compareTo(
-                        //            times1[0].replace("/", "-"));
-                        //}
-                        //return o2.time.compareTo(o1.time);
                         String time1 = o1.time.replace("/", "-");
                         String time2 = o2.time.replace("/", "-");
                         return time2.compareTo(time1);

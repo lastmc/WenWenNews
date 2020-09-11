@@ -25,7 +25,7 @@ public class MyApplication extends Application {
         //new KnowledgeGraph.GetKnowledgeGraghListAsyncTask(list, "病毒", new KnowledgeGraph.PostExec() {
         //    @Override
         //    public void onPostExec(Boolean success) {
-        //        Log.d("mylog", "oh shit");
+        //        Log.d("mylog", "oh classes");
         //    }
         //}).execute();
     }

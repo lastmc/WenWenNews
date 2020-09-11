@@ -1,29 +1,24 @@
 package com.java.yandifei.ui.newscluster;
 
-import android.os.AsyncTask;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.java.yandifei.R;
 import com.java.yandifei.network.NewsEntry;
 import com.java.yandifei.ui.news.NewsContentActivity;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -46,7 +41,7 @@ public class NewsClusterListFragment extends Fragment {
         this.newsList = new ArrayList<>();
 
         // get data from json
-        InputStream data = getResources().openRawResource(R.raw.shit);
+        InputStream data = getResources().openRawResource(R.raw.classes);
         try {
             JSONArray dataArray = JSON.parseObject(data, JSONArray.class);
             for (int i = 0; i < dataArray.size(); ++i) {
