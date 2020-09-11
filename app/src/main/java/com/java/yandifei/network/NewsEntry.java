@@ -135,13 +135,16 @@ public class NewsEntry implements Serializable {
                 newsList.sort(new Comparator<NewsEntry>() {
                     @Override
                     public int compare(NewsEntry o1, NewsEntry o2) {
-                        String[] times1 = o1.time.split(" ");
-                        String[] times2 = o2.time.split(" ");
-                        if (times1.length == 1 || times2.length == 1) {
-                            return times2[0].replace("/", "-").compareTo(
-                                    times1[0].replace("/", "-"));
-                        }
-                        return o2.time.compareTo(o1.time);
+                        //String[] times1 = o1.time.split(" ");
+                        //String[] times2 = o2.time.split(" ");
+                        //if (times1.length == 1 || times2.length == 1) {
+                        //    return times2[0].replace("/", "-").compareTo(
+                        //            times1[0].replace("/", "-"));
+                        //}
+                        //return o2.time.compareTo(o1.time);
+                        String time1 = o1.time.replace("/", "-");
+                        String time2 = o2.time.replace("/", "-");
+                        return time2.compareTo(time1);
                     }
                 });
             }
